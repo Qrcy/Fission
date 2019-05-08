@@ -2,45 +2,35 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 )
 
-func main() {
-	A := [2][3]int{
-		[3]int{1, 1, 1},
-		[3]int{1, 1, 1},
-	}
-	B := [3]2]int{
-		[2]int{1, 1},
-		[2]int{1, 1},
-		[2]int{1, 1},
+func Handler(w http.ResponseWriter, r *http.Request) {
+	X := [][]float32{
+		[]float32{8, 3},
+		[]float32{2, 4},
+		[]float32{3, 6},
 	}
 
-	var C [3][3]int
+	Y := [][]float32{
+		[]float32{1, 2, 3},
+		[]float32{4, 6, 8},
+	}
 
-	for i := 0; i < 3; i++ {
-		for j := 0; j < 3; j++ {
-			C[i][j] = 0
-			for k := 0; k < 3; k++ {
-				C[i][j] =  A[i][k] * B[k][j]
+	out := multiply(X, Y)
+	w.Write([]byte(fmt.Sprintf("v1: %b", out)))
+}
+
+func multiply(x, y [][]float32) ([][]float32) {
+
+	out := make([][]float32, len(x))
+	for i := 0; i < len(x); i++ {
+		out[i] = make([]float32, len(y[0]))
+		for j := 0; j < len(y[0]); j++ {
+			for k := 0; k < len(y); k++ {
+				out[i][j] += x[i][k] * y[k][j]
 			}
 		}
 	}
-
-	twoDimensionalMatrices := [3][3][3]int{m1, m2, m3}
-
-	for index, m := range twoDimensionalMatrices {
-		fmt.Println(matrixNames[index],":")
-		showMatrixElements(m)
-		fmt.Println()
-	}
-}
-
-//A function that displays matix elements
-func showMatrixElements(m [3][3]int) {
-	for i := 0; i < 3; i++ {
-		for j := 0; j < 3; j++ {
-			fmt.Printf("%d\t", m[i][j])
-		}
-		fmt.Println()
-	}
+	return out
 }

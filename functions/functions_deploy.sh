@@ -20,6 +20,7 @@ fission function create --name kmatrixjava --code ./functions/js/matrixjava.js -
 ## Go fuggvenyek
 fission function create --name khellogo --src ./functions/go/hellogo.go --entrypoint Handler --env kgo --minscale 1 --maxscale 5  --executortype newdeploy
 fission function create --name kprimgo --src ./functions/go/primgo.go --entrypoint Handler --env kgo --minscale 1 --maxscale 5  --executortype newdeploy
+fission function create --name kmatrixgo --src ./functions/go/matrix.go --entrypoint Handler --env kgo --minscale 1 --maxscale 5  --executortype newdeploy
 
 ## Python fugvenyek
 fission function create --name khellopython --code ./functions/python/hellopython.py --env kpython --minscale 1 --maxscale 5  --executortype newdeploy

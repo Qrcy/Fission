@@ -1,15 +1,19 @@
+root@master:/home/gabor/Fission/functions/go# nano primgo.go
+  GNU nano 2.9.3                                                                  primgo.go
+
 package main
 
 import (
-    "fmt"
-	"math"
-	"net/http"
-	"io"
-	"bytes"
-	"encoding/json"
-	"io/ioutil"
-	"log"
+    "encoding/json"
+    "net/http"
+    "io/ioutil"
+    "math"
+    "strconv"
 )
+
+type msg struct {
+    ID string `json:"id"`
+}
 
 func IsPrime(value int) bool {
     for i := 2; i <= int(math.Floor(float64(value) / 2)); i++ {
@@ -20,15 +24,40 @@ func IsPrime(value int) bool {
     return value > 1
 }
 
-func main() {
-    for i := 1; i <= 100; i++ {
-        if IsPrime(i) {
-            fmt.Printf("%v ", i)
+func FindPrime(x int) int {
+    var temp int = 0
+        for i := 0; i < x; i++ {
+                if (IsPrime(i) != false) {
+                        temp = i
+                }
         }
-    }
+    return temp
 }
 
-func Handler(rw http.ResponseWriter, req *http.Request) {
-    id := r.PostFormValue("id")
-	io.WriteString(rw, "pokemon")
+func Handler(w http.ResponseWriter, r *http.Request) {
+    reqBody, err := ioutil.ReadAll(r.Body)
+    if err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        w.Write([]byte(err.Error()))
+    }
+
+    m := msg{}
+    err = json.Unmarshal(reqBody, &m)
+    if err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        w.Write([]byte(err.Error()))
+    }
+
+    i, err := strconv.Atoi(m.ID)
+
+    c := FindPrime(i)
+    
+    respBody, err := json.Marshal(c)
+    if err != nil {
+        w.WriteHeader(http.StatusInternalServerError)
+        w.Write([]byte(err.Error()))
+    }
+
+    w.Write([]byte(respBody))
 }
+
