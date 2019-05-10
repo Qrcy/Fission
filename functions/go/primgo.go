@@ -1,6 +1,3 @@
-root@master:/home/gabor/Fission/functions/go# nano primgo.go
-  GNU nano 2.9.3                                                                  primgo.go
-
 package main
 
 import (
