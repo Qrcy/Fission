@@ -4,6 +4,8 @@ curl -H "Content-Type: application/json" -X POST -d '{"id":"21"}' http://192.168
 hey -n 50000 -c 100 -m POST -d '{"id":"44444"}' http://10.10.1.1:32418/primjava
 
 
+kubectl get pods --all-namespaces -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains("Evicted")) | "kubectl delete pods \(.metadata.name) -n \(.metadata.namespace)"' | xargs -n 1 bash -c
+
 kubectl -n fission get svc router -o jsonpath='{...nodePort}'
 
  sudo rm -r -f logs
