@@ -11,7 +11,7 @@
 # Script variable(s)
 PID=$$
 SCRIPTNAME="$(basename $0)"
-WORKER_LIST="workerlocal.list"
+WORKER_LIST="worker.list"
 IP=""
 TOKEN=""
 HASH=""

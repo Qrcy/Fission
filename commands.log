@@ -8,4 +8,4 @@ kubectl get pods --all-namespaces -o json | jq '.items[] | select(.status.reason
 
 kubectl -n fission get svc router -o jsonpath='{...nodePort}'
 
- sudo rm -r -f logs
+sudo rm -r -f logs
